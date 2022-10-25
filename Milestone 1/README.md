@@ -1,0 +1,1 @@
+This folder contains the markdown and rmarkdown documents for the first deliverable of the Mini Data Analysis project.
