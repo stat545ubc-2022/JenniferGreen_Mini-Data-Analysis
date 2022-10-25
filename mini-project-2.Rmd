@@ -1,6 +1,7 @@
 ---
 title: "Mini Data Analysis Milestone 2"
-output: html_document
+output: github_document
+always_allow_html: true
 ---
 
 *To complete this milestone, you can edit [this `.rmd` file](https://raw.githubusercontent.com/UBC-STAT/stat545.stat.ubc.ca/master/content/mini-project/mini-project-2.Rmd) directly. Fill in the sections that are commented out with `<!--- start your work here--->`. When you are done, make sure to knit to an `.md` file by changing the output in the YAML header to `github_document`, before submitting a tagged release on canvas.*
@@ -42,6 +43,8 @@ Begin by loading your data and the tidyverse package below:
 ```{r, message = FALSE}
 library(datateachr) # <- might contain the data you picked!
 library(tidyverse)
+library(lubridate)
+library(dplyr)
 ```
 
 # Task 1: Tidy your data (15 points)
@@ -61,7 +64,11 @@ A reminder of the definition of *tidy* data:
 Based on the definition above, can you identify if your data is tidy or untidy? Go through all your columns, or if you have \>8 variables, just pick 8, and explain whether the data is untidy or tidy.
 
 <!--------------------------- Start your work below --------------------------->
-
+```{r}
+#Looking at my data table to see if its tidy
+head(van_trees2)
+```
+My data is tidy because each row is an observation of the associated column variables, and each cell is a value. 
 <!----------------------------------------------------------------------------->
 
 ### 2.2 (5 points)
@@ -73,6 +80,28 @@ If your data is untidy, then tidy it! Then, untidy it back to it's original stat
 Be sure to explain your reasoning for this task. Show us the "before" and "after".
 
 <!--------------------------- Start your work below --------------------------->
+```{r}
+#Untidying my data
+
+
+van_trees3 <- van_trees2 %>% 
+    select(tree_id, common_name, diameter, year_planted) #creating a smaller table to untidy
+
+untidy <- van_trees3 %>% 
+    pivot_wider(names_from = year_planted,
+                values_from = diameter)
+untidy
+```
+```{r}
+#Re-tidying my data
+retidyed <- untidy %>% 
+    pivot_longer(cols = c(-tree_id, -common_name),
+                 names_to = "year_planted",
+                 values_to = "diameter",  
+                 values_drop_na = TRUE)
+retidyed
+```
+I needed to re-tidy my data as having the year_planted as the variable with diameter as the value did not make a lot of sense logistically, especially if people didn't know where the values for each row of the years came from. Now we are workign with the original tidy data set again!
 
 <!----------------------------------------------------------------------------->
 
@@ -82,20 +111,59 @@ Now, you should be more familiar with your data, and also have made progress in 
 
 <!-------------------------- Start your work below ---------------------------->
 
-1.  *FILL_THIS_IN*
-2.  *FILL_THIS_IN*
+1.  Are certain types of trees planted in some neighborhoods versus others?
+2.  How have species planted changed over time? 
 
 <!----------------------------------------------------------------------------->
 
 Explain your decision for choosing the above two research questions.
 
 <!--------------------------- Start your work below --------------------------->
-
+I chose these two research questions as they were most interesting to me. They are both measures of biodiversity as they are looking at the composition of species. One of the questions is about change in biodiversity over time and one is about biodiversity in each neighborhood. While I made progress on both questions in the last task, there is more work to do.
 <!----------------------------------------------------------------------------->
 
 Now, try to choose a version of your data that you think will be appropriate to answer these 2 questions. Use between 4 and 8 functions that we've covered so far (i.e. by filtering, cleaning, tidy'ing, dropping irrelevant columns, etc.).
 
 <!--------------------------- Start your work below --------------------------->
+```{r}
+# I first want to see which species were the most planted as we do not need all 634 tree types in our analysis. I will select the top 10 in the next code chunk.
+
+(species_by_numbers <- van_trees2 %>%
+  group_by(common_name) %>%
+  summarize(n = n()) %>% arrange(desc(n), .by_group = TRUE))
+
+```
+```{r}
+#Extracting the month from dates as a new vector then adding onto van_trees2 as a column. This way we can look at seasonality of tree planting as well
+#This is part of Task 2: Special Data Types, but it made more sense for me to do this before my data re-organizing. 
+
+month <- as.numeric(format(dates,'%m'))
+month
+(van_trees2$month_planted <- month)
+van_trees2
+```
+
+```{r}
+# I will now clean up my data table based on the research questions
+
+(van_trees4 <-
+van_trees2 %>%
+    arrange(year_planted) %>% #arrange by year planted (increasing from 1989)
+    filter(common_name == c("KWANZAN FLOWERING CHERRY", "PISSARD PLUM", "NORWAY MAPLE",
+           "CRIMEAN LINDEN", "PYRAMIDAL EUROPEAN HORNBEAM", "NIGHT PURPLE LEAF PLUM", 
+           "RED MAPLE", "KOBUS MAGNOLIA", 
+           "BOWHALL RED MAPLE", 
+           "AKEBONO FLOWERING CHERRY")) %>% #only looking at top 10 most popular tree species 
+    mutate(season_planted = case_when(month_planted < 4 ~ "Winter",
+                             month_planted < 7 ~ "Spring",
+                             month_planted < 10 ~ "Summer",
+                             month_planted < 13 ~ "Fall")) %>% #Adding seasonal information
+    select(tree_id, common_name, neighbourhood_name, season_planted,
+          year_planted)) #selecting relevant columns
+    
+    
+    
+```
 
 <!----------------------------------------------------------------------------->
 
@@ -106,6 +174,20 @@ For this exercise, you'll be choosing two of the three tasks below -- both tasks
 But first, tasks 1 and 2 below ask you to modify a plot you made in a previous milestone. The plot you choose should involve plotting across at least three groups (whether by facetting, or using an aesthetic like colour). Place this plot below (you're allowed to modify the plot if you'd like). If you don't have such a plot, you'll need to make one. Place the code for your plot below.
 
 <!-------------------------- Start your work below ---------------------------->
+The code chunk below will be used to complete this task as I did not have a plot I wanted to use from milestone 1- so I will create one now.
+```{r Facet of seasonal planting}
+#Facets of trees species planted over time, showing which seasons they were planted in
+
+van_trees4 %>%
+  ggplot(aes(year_planted, common_name, color = season_planted)) +
+  geom_point(alpha = 0.2) + facet_wrap(vars(season_planted)) +
+  theme(panel.spacing=unit(1,"lines")) +
+  ylab("Tree Species") +
+  xlab("Year Planted") + 
+  ggtitle("Seasonal Tree Planting")
+
+```
+
 
 <!----------------------------------------------------------------------------->
 
@@ -128,13 +210,48 @@ Now, choose two of the following tasks.
 
 <!-------------------------- Start your work below ---------------------------->
 
-**Task Number**: FILL_THIS_IN
+**Task Number**: 3
+I completed #3 (working with dates) as part of 2.3 in the first task of this analysis. It made more sense for my new data version to include a date modification as one of my research questions is looking at time. In 2.3, I extracted the month out of the time_planted column to look at seasonality. Furthermore, in milestone 1, I extracted the year to understand changes over time in tree_planting.  
 
 <!----------------------------------------------------------------------------->
 
 <!-------------------------- Start your work below ---------------------------->
 
-**Task Number**: FILL_THIS_IN
+**Task Number**:1
+
+```{r Seasonal Tree Planting (factors)}
+#Here I re-do my data tidying from Task 1, but I change the code slightly to have my mutated new column of season_planted be as a factor instead of a character.
+
+van_trees_factors <-
+van_trees2 %>%
+    arrange(year_planted) %>% #arrange by year planted (increasing from 1989)
+    filter(common_name == c("KWANZAN FLOWERING CHERRY", "PISSARD PLUM", "NORWAY MAPLE",
+           "CRIMEAN LINDEN", "PYRAMIDAL EUROPEAN HORNBEAM", "NIGHT PURPLE LEAF PLUM", 
+           "RED MAPLE", "KOBUS MAGNOLIA", 
+           "BOWHALL RED MAPLE", 
+           "AKEBONO FLOWERING CHERRY")) %>% #only looking at top 10 most popular tree species 
+    mutate(season_planted = factor(case_when(month_planted < 4 ~ "Winter",
+                             month_planted < 7 ~ "Spring",
+                             month_planted < 10 ~ "Summer",
+                             month_planted < 13 ~ "Fall"),
+                            levels = c("Winter", "Spring", "Summer", "Fall")
+                             )) %>% #Adding seasonal information as factors
+    select(tree_id, common_name, neighbourhood_name, season_planted,
+          year_planted) #selecting relevant columns
+
+#Now I can re do my facet wrap plot with my factorized seasons
+van_trees_factors %>%
+  ggplot(aes(year_planted, common_name, color = season_planted)) +
+  geom_point(alpha = 0.2) + facet_wrap(vars(season_planted)) +
+  theme(panel.spacing=unit(1,"lines")) +
+  ylab("Tree Species") +
+  xlab("Year Planted") +
+  ggtitle("Seasonal Tree Planting")
+
+    
+```
+
+I reordered the seasons by timing in the year (winter is the first season of a new year) rather than alphabetical order as to better display species planted over time. 
 
 <!----------------------------------------------------------------------------->
 
@@ -146,9 +263,9 @@ Pick a research question, and pick a variable of interest (we'll call it "Y") th
 
 <!-------------------------- Start your work below ---------------------------->
 
-**Research Question**: FILL_THIS_IN
+**Research Question**: How have species planted changed over time? 
 
-**Variable of interest**: FILL_THIS_IN
+**Variable of interest**: Proportion of Kwanzan Flowering Cherry trees planted in each year
 
 <!----------------------------------------------------------------------------->
 
@@ -164,6 +281,22 @@ Fit a model or run a hypothesis test that provides insight on this variable with
 
 <!-------------------------- Start your work below ---------------------------->
 
+```{r}
+ #lm(cherry_tree_prop~year, data = FILL_IN_HERE)
+#Calculating the proportion of Kwanzan Flowering Cherry Trees planted in each year
+Cherry_proportions <- van_trees4 %>% 
+   filter(common_name == "KWANZAN FLOWERING CHERRY") %>% 
+   group_by(year_planted) %>% summarize(n = n()) %>% #how many planted per year
+   drop_na() %>% #there were 888 trees of unknown year
+   mutate(freq = n / sum(n))
+
+#Linear model of the cherry tree proportions per year 
+(lm_cherry <- lm(freq~year_planted, data = Cherry_proportions))
+ 
+```
+
+
+
 <!----------------------------------------------------------------------------->
 
 ## 2.2 (5 points)
@@ -175,6 +308,11 @@ Produce something relevant from your fitted model: either predictions on Y, or a
 -   Obtain your results using the `broom` package if possible. If your model is not compatible with the broom function you're needing, then you can obtain your results by some other means, but first indicate which broom function is not compatible.
 
 <!-------------------------- Start your work below ---------------------------->
+```{r}
+#Using broom package to tidy my model output
+ (tidyed_lm <- broom::tidy(lm_cherry))
+```
+I chose to produce a tibble of the summary output with the tidy function to look at the estimate, standard error, t-value, and p-value for my fitted model. 
 
 <!----------------------------------------------------------------------------->
 
@@ -190,6 +328,11 @@ Take a summary table that you made from Milestone 1 (Task 4.2), and write it as 
 -   **Reproducibility criteria**: You should be able to delete the csv file, and remake it simply by knitting this Rmd file.
 
 <!-------------------------- Start your work below ---------------------------->
+```{r}
+#Creating a CSV file of a summary table and placing it in my working directory
+
+write_csv(species_per_neighbourhood, here::here("species_per_neighbourhood.csv"))
+```
 
 <!----------------------------------------------------------------------------->
 
@@ -200,6 +343,14 @@ Write your model object from Task 3 to an R binary file (an RDS), and load it ag
 -   The same robustness and reproducibility criteria as in 3.1 apply here.
 
 <!-------------------------- Start your work below ---------------------------->
+```{r}
+#Creating a binary file of my tidyed lm tibble
+saveRDS(tidyed_lm, here::here("tidyed_lm.rds"))
+
+#Reloading my RDS
+(tidyed_lm <- readRDS("tidyed_lm.rds"))
+
+```
 
 <!----------------------------------------------------------------------------->
 

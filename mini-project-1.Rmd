@@ -184,7 +184,7 @@ This simplified our table from 20 columns to 10, which will make it easier to wo
 
 Now, I would like to know about the missing value information in my data set, specifically, which columns have the most NA values, as this could affect my analysis. Below, I use tidyr functions to find the missing values (na's) across all the columns and then plotted this information. 
 
-```{r}
+```{r Missing Values per Variable}
 #Collecting the missing values per variable
 missing_values <- van_trees2 %>% summarise(across(everything(), ~sum(is.na(.))))
 #Plotting the missing values per variable
@@ -204,7 +204,7 @@ This plot shows us that the variable "date_planted", representing when the trees
 
 Next, I was curious what relationships I could start to see between the variables. I know that older trees have larger diameters than their younger counter parts. I wanted to see if this pattern exists in planted residential trees by comparing the date planted and the diameter on a line graph. 
 
-```{r}
+```{r Date Planted vs Diameter}
 # Looking for date_planted and diameter correlation
 van_trees2 %>% ggplot(mapping=aes(x = date_planted, y = diameter), na.rm = FALSE) + 
   geom_line() + 
@@ -218,7 +218,7 @@ There is no clear pattern here. However, we can see some obvious outliers in the
 
 Additionally, as I start to think about what I can do with this data, I wondered if certain neighborhoods have significantly more trees planted there than others. Although I don't have data readily available on the wealth of these neighborhoods, it could be interesting to see if there is a link between trees in the neighborhood and cost of living. Let's look at which neighborhoods have the most trees. I will do this by grouping by the neighborhood_name variable and summarizing by the number of trees. I will then create a bar graph to better visualize this. 
 
-```{r}
+```{r Trees Planter per Neighbourhood}
 #Number of trees per neighbourhood in Vancouver
 Neighbourhood <- van_trees2 %>% group_by(neighbourhood_name) %>% summarise(trees =n())
 
@@ -292,7 +292,7 @@ year
 Creating this new variable was very helpful for my research question on trees planted over time as I made knowing just the year the trees were each planted accessible. This way I can look at trees per year. 
 
 
-```{r}
+```{r Trees Planted Per Year}
 #Creating a graph out of summarized variables that has at least two geom layers.
 
 #I first need to count how many rows there are per year as this tells us how many trees were planted in each year
@@ -325,7 +325,7 @@ Creating a clear bar chart of year vs number of trees planted helped me clealry 
 ```
 Above, I calculated the number of species (by common_name) in each neighbourhood in Vancouver. This is very useful for my research question of looking at which trees are planted in which neighborhoods.
 
-```{r}
+```{r Tree Species per Neighborhood}
 #Creating a graph out of summarized variables that has at least two geom layers.
 
 ggplot(species_per_neighbourhood, aes(x=neighbourhood_name, y = species)) + 
@@ -349,7 +349,7 @@ This graphic helped me visualize the diversity of trees per Vancouver neighbourh
 ```
 This shows if some years accounted for biodiversity more than other years. While it does not tell us which were the most popular per year, this is a good start.
 
-```{r}
+```{r Tree Species per Year}
 #Creating a graph out of summarized variables that has at least two geom layers.
 
 ggplot(species_per_year, aes(x=year_planted, y = species))+
@@ -378,7 +378,7 @@ range(van_trees2$height_range_id)
 ```
 This shows me the kinds of numbers I will be working with for this research question but it doesn't get me very far in answering my question.
 
-```{r}
+```{r Height Range ID vs Diameter per Neighborhood}
 #Making a graph with customized alpha transparency.
 ggplot(van_trees2, aes(x=height_range_id, y=diameter)) +
  geom_point(aes(color = neighbourhood_name),
