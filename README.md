@@ -8,7 +8,9 @@ In deliverable 2, I narrowed down my 4 research questions into 2 and then tidyed
 Clear instructions in addition to code chunk comments are included for every task. All of the libraries are loaded in at the beginning of each deliverable.  
 
 
-*Contents*
+
+
+**Contents**
 1. Milestone 1 folder - contains the .md, .rmd, and outputs for the 1st deliverable
 2. Milestone 2 folder - contains the .md, .rmd, and outputs for the 2nd deliverable 
 3. Output folder- contains a .csv and .rds files from deliverable 2
