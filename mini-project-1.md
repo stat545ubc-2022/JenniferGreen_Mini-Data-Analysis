@@ -40,19 +40,19 @@ library(tidyverse)
 
 ## For Both Milestones
 
--   Each milestone is worth 45 points. The number of points allocated to
-    each task will be annotated within each deliverable. Tasks that are
-    more challenging will often be allocated more points.
+- Each milestone is worth 45 points. The number of points allocated to
+  each task will be annotated within each deliverable. Tasks that are
+  more challenging will often be allocated more points.
 
--   10 points will be allocated to the reproducibility, cleanliness, and
-    coherence of the overall analysis. While the two milestones will be
-    submitted as independent deliverables, the analysis itself is a
-    continuum - think of it as two chapters to a story. Each chapter, or
-    in this case, portion of your analysis, should be easily followed
-    through by someone unfamiliar with the content.
-    [Here](https://swcarpentry.github.io/r-novice-inflammation/06-best-practices-R/)
-    is a good resource for what constitutes “good code”. Learning good
-    coding practices early in your career will save you hassle later on!
+- 10 points will be allocated to the reproducibility, cleanliness, and
+  coherence of the overall analysis. While the two milestones will be
+  submitted as independent deliverables, the analysis itself is a
+  continuum - think of it as two chapters to a story. Each chapter, or
+  in this case, portion of your analysis, should be easily followed
+  through by someone unfamiliar with the content.
+  [Here](https://swcarpentry.github.io/r-novice-inflammation/06-best-practices-R/)
+  is a good resource for what constitutes “good code”. Learning good
+  coding practices early in your career will save you hassle later on!
 
 ## For Milestone 1
 
@@ -76,11 +76,11 @@ for tagging your release on Github.
 
 By the end of this milestone, you should:
 
--   Become familiar with your dataset of choosing
--   Select 4 questions that you would like to answer with your data
--   Generate a reproducible and clear report using R Markdown
--   Become familiar with manipulating and summarizing your data in
-    tibbles using `dplyr`, with a research question in mind.
+- Become familiar with your dataset of choosing
+- Select 4 questions that you would like to answer with your data
+- Generate a reproducible and clear report using R Markdown
+- Become familiar with manipulating and summarizing your data in tibbles
+  using `dplyr`, with a research question in mind.
 
 # Task 1: Choose your favorite dataset (10 points)
 
@@ -88,42 +88,42 @@ The `datateachr` package by Hayley Boyce and Jordan Bourak currently
 composed of 7 semi-tidy datasets for educational purposes. Here is a
 brief description of each dataset:
 
--   *apt_buildings*: Acquired courtesy of The City of Toronto’s Open
-    Data Portal. It currently has 3455 rows and 37 columns.
+- *apt_buildings*: Acquired courtesy of The City of Toronto’s Open Data
+  Portal. It currently has 3455 rows and 37 columns.
 
--   *building_permits*: Acquired courtesy of The City of Vancouver’s
-    Open Data Portal. It currently has 20680 rows and 14 columns.
+- *building_permits*: Acquired courtesy of The City of Vancouver’s Open
+  Data Portal. It currently has 20680 rows and 14 columns.
 
--   *cancer_sample*: Acquired courtesy of UCI Machine Learning
-    Repository. It currently has 569 rows and 32 columns.
+- *cancer_sample*: Acquired courtesy of UCI Machine Learning Repository.
+  It currently has 569 rows and 32 columns.
 
--   *flow_sample*: Acquired courtesy of The Government of Canada’s
-    Historical Hydrometric Database. It currently has 218 rows and 7
-    columns.
+- *flow_sample*: Acquired courtesy of The Government of Canada’s
+  Historical Hydrometric Database. It currently has 218 rows and 7
+  columns.
 
--   *parking_meters*: Acquired courtesy of The City of Vancouver’s Open
-    Data Portal. It currently has 10032 rows and 22 columns.
+- *parking_meters*: Acquired courtesy of The City of Vancouver’s Open
+  Data Portal. It currently has 10032 rows and 22 columns.
 
--   *steam_games*: Acquired courtesy of Kaggle. It currently has 40833
-    rows and 21 columns.
+- *steam_games*: Acquired courtesy of Kaggle. It currently has 40833
+  rows and 21 columns.
 
--   *vancouver_trees*: Acquired courtesy of The City of Vancouver’s Open
-    Data Portal. It currently has 146611 rows and 20 columns.
+- *vancouver_trees*: Acquired courtesy of The City of Vancouver’s Open
+  Data Portal. It currently has 146611 rows and 20 columns.
 
 **Things to keep in mind**
 
--   We hope that this project will serve as practice for carrying our
-    your own *independent* data analysis. Remember to comment your code,
-    be explicit about what you are doing, and write notes in this
-    markdown document when you feel that context is required. As you
-    advance in the project, prompts and hints to do this will be
-    diminished - it’ll be up to you!
+- We hope that this project will serve as practice for carrying our your
+  own *independent* data analysis. Remember to comment your code, be
+  explicit about what you are doing, and write notes in this markdown
+  document when you feel that context is required. As you advance in the
+  project, prompts and hints to do this will be diminished - it’ll be up
+  to you!
 
--   Before choosing a dataset, you should always keep in mind **your
-    goal**, or in other ways, *what you wish to achieve with this data*.
-    This mini data-analysis project focuses on *data wrangling*,
-    *tidying*, and *visualization*. In short, it’s a way for you to get
-    your feet wet with exploring data on your own.
+- Before choosing a dataset, you should always keep in mind **your
+  goal**, or in other ways, *what you wish to achieve with this data*.
+  This mini data-analysis project focuses on *data wrangling*,
+  *tidying*, and *visualization*. In short, it’s a way for you to get
+  your feet wet with exploring data on your own.
 
 And that is exactly the first thing that you will do!
 
@@ -481,7 +481,7 @@ missing_values %>% pivot_longer(cols=everything()) %>%
   geom_text(aes(label=value), nudge_y = 3000)
 ```
 
-![](mini-project-1_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](mini-project-1_files/figure-gfm/Missing%20Values%20per%20Variable-1.png)<!-- -->
 
 This plot shows us that the variable “date_planted”, representing when
 the trees were planted, is disproportionately missing values, which
@@ -509,10 +509,10 @@ van_trees2 %>% ggplot(mapping=aes(x = date_planted, y = diameter), na.rm = FALSE
 
     ## Warning: Removed 76548 row(s) containing missing values (geom_path).
 
-![](mini-project-1_files/figure-gfm/unnamed-chunk-8-1.png)<!-- --> There
-is no clear pattern here. However, we can see some obvious outliers in
-the diameter data, which may be interesting to look at later on.
-Further, we can also see some small gaps in time without trees being
+![](mini-project-1_files/figure-gfm/Date%20Planted%20vs%20Diameter-1.png)<!-- -->
+There is no clear pattern here. However, we can see some obvious
+outliers in the diameter data, which may be interesting to look at later
+on. Further, we can also see some small gaps in time without trees being
 planted, including around 2010. However, this could be due to the
 missing values in dates_planted.
 
@@ -541,8 +541,8 @@ Neighbourhood %>%
   ylab("# of Trees Planted")
 ```
 
-![](mini-project-1_files/figure-gfm/unnamed-chunk-9-1.png)<!-- --> By
-plotting this distribution, I found that Renfrew-Collingwood,
+![](mini-project-1_files/figure-gfm/Trees%20Planter%20per%20Neighbourhood-1.png)<!-- -->
+By plotting this distribution, I found that Renfrew-Collingwood,
 Hastings-Sunrise, and Kensington-Cedar Cottage have had the most amount
 of trees planted since 1990. These numbers per neighborhood may,
 however, fluctuate over time. Further, there could be reasons for these
@@ -14954,7 +14954,7 @@ ggplot(trees_per_year, aes(x=year_planted, y =n)) +
 
     ## Warning: Removed 1 rows containing missing values (geom_text).
 
-![](mini-project-1_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](mini-project-1_files/figure-gfm/Trees%20Planted%20Per%20Year-1.png)<!-- -->
 
 Creating a clear bar chart of year vs number of trees planted helped me
 clealry visualzie which years had the most trees planted. I can see that
@@ -15001,8 +15001,8 @@ ggplot(species_per_neighbourhood, aes(x=neighbourhood_name, y = species)) +
   ggtitle("The number of tree species planted in each Vancouver neighbourhood") 
 ```
 
-![](mini-project-1_files/figure-gfm/unnamed-chunk-13-1.png)<!-- --> This
-graphic helped me visualize the diversity of trees per Vancouver
+![](mini-project-1_files/figure-gfm/Tree%20Species%20per%20Neighborhood-1.png)<!-- -->
+This graphic helped me visualize the diversity of trees per Vancouver
 neighbourhood, and showed me that there isn’t a huge difference between
 neighbourhoods. However, it is interesting to see that Downtown has the
 least. I would later like to look at what the most popular tree type in
@@ -15053,18 +15053,17 @@ ggplot(species_per_year, aes(x=year_planted, y = species))+
 
     ## Warning: Removed 1 rows containing missing values (geom_text).
 
-![](mini-project-1_files/figure-gfm/unnamed-chunk-15-1.png)<!-- --> This
-graph helps us visualize which years planted the most diverse trees. It
-is interesting to see that the diversity in tree species planted
-increased steadily over time since the start of planting on record until
-the late 1990s. I am not seeing many other interesting patterns here.
-It’s important to keep in mind, however, that this isn’t answering the
-entirety of the proposed research question.
+![](mini-project-1_files/figure-gfm/Tree%20Species%20per%20Year-1.png)<!-- -->
+This graph helps us visualize which years planted the most diverse
+trees. It is interesting to see that the diversity in tree species
+planted increased steadily over time since the start of planting on
+record until the late 1990s. I am not seeing many other interesting
+patterns here. It’s important to keep in mind, however, that this isn’t
+answering the entirety of the proposed research question.
 
 **4) How does tree size vary across neighborhoods?**
 
 ``` r
-#head(van_trees2)
 #Based on two categorical variables, I will calculate two summary statistics
 #First I will look at a summary of diameter
 mean(van_trees2$diameter)
@@ -15103,11 +15102,12 @@ ggplot(van_trees2, aes(x=height_range_id, y=diameter)) +
             alpha = 0.8) 
 ```
 
-![](mini-project-1_files/figure-gfm/unnamed-chunk-17-1.png)<!-- --> This
-graph was not very useful for my research question as it is unclear with
-too many data points stacked on top of each other. This is due to trees
-being grouped into 10 height_range_id categories in the original data
-set. Perhaps then, I will only look at diameter when looking at size.
+![](mini-project-1_files/figure-gfm/Height%20Range%20ID%20vs%20Diameter%20per%20Neighborhood-1.png)<!-- -->
+This graph was not very useful for my research question as it is unclear
+with too many data points stacked on top of each other. This is due to
+trees being grouped into 10 height_range_id categories in the original
+data set. Perhaps then, I will only look at diameter when looking at
+size.
 
 <!----------------------------------------------------------------------------->
 
