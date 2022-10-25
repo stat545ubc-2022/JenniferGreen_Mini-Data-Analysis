@@ -1,6 +1,7 @@
 ---
 title: "Mini Data Analysis Milestone 2"
 output: github_document
+always_allow_html: true
 ---
 
 *To complete this milestone, you can edit [this `.rmd` file](https://raw.githubusercontent.com/UBC-STAT/stat545.stat.ubc.ca/master/content/mini-project/mini-project-2.Rmd) directly. Fill in the sections that are commented out with `<!--- start your work here--->`. When you are done, make sure to knit to an `.md` file by changing the output in the YAML header to `github_document`, before submitting a tagged release on canvas.*
@@ -46,6 +47,24 @@ library(lubridate)
 library(dplyr)
 ```
 
+```{r}
+#Loading in data from Milestone 1
+
+#Van_trees2 (modified *vancouver_trees* dataset)
+van_trees2 <-
+vancouver_trees %>% 
+   select(tree_id, genus_name, species_name, common_name, neighbourhood_name, height_range_id, diameter, date_planted, longitude, latitude)
+dates <- van_trees2$date_planted
+year <- as.numeric(format(dates,'%Y'))
+van_trees2$year_planted <- year
+
+#Species_per_neighbourhood
+species_per_neighbourhood <- 
+  van_trees2 %>%
+  group_by(neighbourhood_name) %>%
+  summarize(species = n_distinct(common_name))
+```
+
 # Task 1: Tidy your data (15 points)
 
 In this task, we will do several exercises to reshape our data. The goal here is to understand how to do this reshaping with the `tidyr` package.
@@ -81,7 +100,6 @@ Be sure to explain your reasoning for this task. Show us the "before" and "after
 <!--------------------------- Start your work below --------------------------->
 ```{r}
 #Untidying my data
-
 
 van_trees3 <- van_trees2 %>% 
     select(tree_id, common_name, diameter, year_planted) #creating a smaller table to untidy

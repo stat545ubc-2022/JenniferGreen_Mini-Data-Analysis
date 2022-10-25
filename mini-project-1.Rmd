@@ -365,7 +365,6 @@ This graph helps us visualize which years planted the most diverse trees. It is 
 
 **4) How does tree size vary across neighborhoods?**
 ```{r}
-#head(van_trees2)
 #Based on two categorical variables, I will calculate two summary statistics
 #First I will look at a summary of diameter
 mean(van_trees2$diameter)
