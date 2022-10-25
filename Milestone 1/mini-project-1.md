@@ -537,7 +537,7 @@ Neighbourhood %>%
   ylab("# of Trees Planted")
 ```
 
-![](mini-project-1_files/figure-gfm/Trees%20Planter%20per%20Neighbourhood-1.png)<!-- -->
+![](mini-project-1_files/figure-gfm/Trees%20Planted%20per%20Neighbourhood-1.png)<!-- -->
 By plotting this distribution, I found that Renfrew-Collingwood,
 Hastings-Sunrise, and Kensington-Cedar Cottage have had the most amount
 of trees planted since 1990. These numbers per neighborhood may,

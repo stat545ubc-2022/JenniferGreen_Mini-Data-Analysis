@@ -218,7 +218,7 @@ There is no clear pattern here. However, we can see some obvious outliers in the
 
 Additionally, as I start to think about what I can do with this data, I wondered if certain neighborhoods have significantly more trees planted there than others. Although I don't have data readily available on the wealth of these neighborhoods, it could be interesting to see if there is a link between trees in the neighborhood and cost of living. Let's look at which neighborhoods have the most trees. I will do this by grouping by the neighborhood_name variable and summarizing by the number of trees. I will then create a bar graph to better visualize this. 
 
-```{r Trees Planter per Neighbourhood}
+```{r Trees Planted per Neighbourhood}
 #Number of trees per neighbourhood in Vancouver
 Neighbourhood <- van_trees2 %>% group_by(neighbourhood_name) %>% summarise(trees =n())
 

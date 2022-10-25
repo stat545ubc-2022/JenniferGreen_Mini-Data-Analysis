@@ -155,9 +155,9 @@ Now, try to choose a version of your data that you think will be appropriate to 
 #This is part of Task 2: Special Data Types, but it made more sense for me to do this before my data re-organizing. 
 
 month <- as.numeric(format(dates,'%m'))
-month
-(van_trees2$month_planted <- month)
-van_trees2
+
+van_trees2$month_planted <- month
+head(van_trees2)
 ```
 
 ```{r}
@@ -360,6 +360,7 @@ Write your model object from Task 3 to an R binary file (an RDS), and load it ag
 -   The same robustness and reproducibility criteria as in 3.1 apply here.
 
 <!-------------------------- Start your work below ---------------------------->
+
 ```{r}
 #Creating a binary file of my tidyed lm tibble
 saveRDS(tidyed_lm, here::here("tidyed_lm.rds"))
