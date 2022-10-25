@@ -176,7 +176,7 @@ van_trees2 <-
    select(tree_id, genus_name, species_name, common_name, neighbourhood_name, height_range_id, diameter, date_planted, longitude, latitude))
 
 #Show the new tibble
-print(van_trees2)
+head(van_trees2)
 ```
 This simplified our table from 20 columns to 10, which will make it easier to work with.
 
@@ -282,10 +282,11 @@ I will now look through each of my proposed research questions and start to summ
 
 #Making a vector of dates
 dates <- van_trees2$date_planted
-#Extracting the year from dates as a new vector then adding onto van_trees2 as a column
+#Extracting the year from dates as a new vector
 year <- as.numeric(format(dates,'%Y'))
-year
-(van_trees2$year_planted <- year)
+
+#Adding this vector into *van_trees2*
+van_trees2$year_planted <- year
 
 
 ```
@@ -317,10 +318,12 @@ Creating a clear bar chart of year vs number of trees planted helped me clealry 
 **2) Are certain types of trees planted in some neighborhoods versus others?**
 ```{r}
 #Computing the number of observations for at least one of my variables. Specifically, how many different tree species have been planted in each neighborhood
-(species_per_neighbourhood <- 
+species_per_neighbourhood <- 
   van_trees2 %>%
   group_by(neighbourhood_name) %>%
-  summarize(species = n_distinct(common_name)))
+  summarize(species = n_distinct(common_name))
+
+head(species_per_neighbourhood)
 
 ```
 Above, I calculated the number of species (by common_name) in each neighbourhood in Vancouver. This is very useful for my research question of looking at which trees are planted in which neighborhoods.
@@ -341,10 +344,12 @@ This graphic helped me visualize the diversity of trees per Vancouver neighbourh
 **3) How has species planted changed over time? **
 ```{r}
 #Computing the number of observations for at least one of my categorical variables. Specifically, per year, how many different species were planted. 
-(species_per_year <- 
+species_per_year <- 
   van_trees2 %>%
   group_by(year_planted) %>%
-  summarize(species = n_distinct(common_name)))
+  summarize(species = n_distinct(common_name))
+
+head(species_per_year)
 
 ```
 This shows if some years accounted for biodiversity more than other years. While it does not tell us which were the most popular per year, this is a good start.
